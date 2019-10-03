@@ -233,6 +233,8 @@ function AutoScroller(elements, options = {}){
     }
 
     function scrollWindow(){
+        if(!self.autoScroll()) return;
+
         autoScroll(hasWindow);
 
         cancelFrame(windowAnimationFrame);
