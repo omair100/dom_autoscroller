@@ -260,7 +260,7 @@ function AutoScroller(elements, options = {}){
 
         if(point.x < rect.left + self.margin){
             scrollx = Math.floor(
-                Math.max(-1, (point.x - rect.left) / self.margin - 1) * self.maxSpeed
+                Math.max(-1, (point.x - 0) / self.margin - 1) * self.maxSpeed
             );
         }else if(point.x > rect.right - self.margin){
             scrollx = Math.ceil(
@@ -312,7 +312,9 @@ function AutoScroller(elements, options = {}){
 
     function scrollY(el, amount){
         if(el === window){
-            window.scrollTo(el.pageXOffset, el.pageYOffset + amount);
+            if (document.body.offsetHeight > (window.scrollY + window.innerHeight)) {
+                window.scrollTo(el.pageXOffset, el.pageYOffset + amount);
+            }
         }else{
             el.scrollTop += amount;
         }
@@ -320,12 +322,13 @@ function AutoScroller(elements, options = {}){
 
     function scrollX(el, amount){
         if(el === window){
-            window.scrollTo(el.pageXOffset + amount, el.pageYOffset);
+            if (window.innerWidth < document.body.offsetWidth) {
+                window.scrollTo(el.pageXOffset + amount, el.pageYOffset);
+            }
         }else{
             el.scrollLeft += amount;
         }
     }
-
 }
 
 export default function AutoScrollerFactory(element, options){
